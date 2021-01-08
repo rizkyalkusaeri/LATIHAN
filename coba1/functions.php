@@ -31,7 +31,52 @@ function tambah($data)
 
   $query = "INSERT INTO mahasiswa VALUES(null, '$nim', '$nama', '$foto')";
 
-  mysqli_query($conn, $query);
-  echo mysqli_error($conn);
+  mysqli_query($conn, $query) or die(mysqli_error($conn));
   return mysqli_affected_rows($conn);
+}
+
+function hapus($id)
+{
+  $conn = koneksi();
+  mysqli_query($conn, "DELETE FROM mahasiswa WHERE id = $id") or die(mysqli_error($conn));
+  return mysqli_affected_rows($conn);
+}
+
+function ubah($data)
+{
+  $conn = koneksi();
+
+  $id = $data['id'];
+  $nama = htmlspecialchars($data['nama']);
+  $nim = htmlspecialchars($data['nim']);
+  $foto = htmlspecialchars($data['foto']);
+
+  $query = "UPDATE mahasiswa SET 
+              nim = '$nim',
+              nama = '$nama',
+              foto = '$foto'
+
+              WHERE id = $id
+              ";
+
+  mysqli_query($conn, $query) or die(mysqli_error($conn));
+  return mysqli_affected_rows($conn);
+}
+
+function cari($keyword)
+{
+  $conn = koneksi();
+  $query = "SELECT * FROM mahasiswa 
+              WHERE 
+              nama LIKE '%$keyword%' OR
+              nim LIKE '%$keyword%'";
+
+  $result = mysqli_query($conn, $query);
+
+  $rows = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $rows[] = $row;
+  }
+
+  return $rows;
 }
