@@ -20,3 +20,18 @@ function query($query)
 
   return $rows;
 }
+
+function tambah($data)
+{
+  $conn = koneksi();
+
+  $nama = htmlspecialchars($data['nama']);
+  $nim = htmlspecialchars($data['nim']);
+  $foto = htmlspecialchars($data['foto']);
+
+  $query = "INSERT INTO mahasiswa VALUES(null, '$nim', '$nama', '$foto')";
+
+  mysqli_query($conn, $query);
+  echo mysqli_error($conn);
+  return mysqli_affected_rows($conn);
+}
