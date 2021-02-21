@@ -1,4 +1,9 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+  header("Location: login.php");
+}
 require 'functions.php';
 
 if (!isset($_GET['id'])) {
@@ -51,12 +56,29 @@ if (isset($_POST['ubah'])) {
       </li>
       <li>
         <label>
-          Foto :
-          <input type="text" name="foto" value="<?= $m['foto']; ?>">
+          Email :
+          <input type="text" name="email" required value="<?php echo $m['email'] ?>">
         </label>
       </li>
       <li>
-        <button type="submit" name="ubah"> ubah Data </button>
+        <Label>
+          Jenis Kelamin <br>
+          <input type="radio" id="male" name="jk" value="Pria"
+            <?php if ($m['jenis_kelamin'] == 'Pria') echo 'checked' ?>>
+          <label for="male">Pria</label>
+          <input type="radio" id="female" name="jk" value="Wanita"
+            <?php if ($m['jenis_kelamin'] == 'Wanita') echo 'checked' ?>>
+          <label for="female">Wanita</label>
+        </Label>
+      </li>
+      <li>
+        <label>
+          Foto :
+          <input type="file" name="foto" value="<?php $m['foto'] ?>">
+        </label>
+      </li>
+      <li>
+        <button type="submit" name="tambah"> Tambah Data </button>
       </li>
     </ul>
   </form>
